@@ -17,13 +17,15 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { productReducer } from './store/product/product.reducer';
+import { ProductEffects } from './store/product/product.effects';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(),
     provideHttpClient(withInterceptors([authInterceptor,errorInterceptor])),
-    provideStore({ auth: authReducer }),
-    provideEffects([AuthEffects]),
+    provideStore({ auth: authReducer, products: productReducer }),
+    provideEffects([AuthEffects, ProductEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ]
 };
