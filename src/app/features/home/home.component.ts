@@ -3,14 +3,16 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../store/auth/auth.actions';
 import { selectCurrentUser } from '../../store/auth/auth.selectors';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="p-8">
-      <h1 class="text-2xl font-bold">Welcome{{ (user$ | async)?.firstName ? ', ' + (user$ | async)?.firstName : '' }} 👋</h1>
+      <h1 class="text-2xl font-bold">Welcome <a routerLink="/products" class="text-indigo-600 underline">Browse Products</a>
+      {{ (user$ | async)?.firstName ? ', ' + (user$ | async)?.firstName : '' }} 👋</h1>
       <button (click)="logout()" class="mt-4 rounded bg-red-500 px-4 py-2 text-white">Logout</button>
     </div>
   `
