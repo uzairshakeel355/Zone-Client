@@ -5,11 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProductActions } from '../../store/product/product.actions';
 import { selectAllProducts, selectProductsLoading, selectProductsError } from '../../store/product/product.selectors';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, MatCardModule, MatProgressSpinnerModule],
+  imports: [CommonModule, CurrencyPipe, MatCardModule, MatProgressSpinnerModule, RouterLink],
   template: `
     <div class="p-8">
       <h1 class="text-2xl font-bold mb-6">Products</h1>
@@ -25,17 +26,19 @@ import { selectAllProducts, selectProductsLoading, selectProductsError } from '.
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <mat-card *ngFor="let product of products$ | async">
-          <img [src]="product.imageUrl || 'https://placehold.co/300x200?text=No+Image'" class="w-full h-40 object-cover" [alt]="product.name">
-          <mat-card-content class="pt-4">
-            <p class="text-xs text-gray-500 uppercase">{{ product.categoryName }}</p>
-            <h2 class="font-semibold">{{ product.name }}</h2>
-            <p class="text-lg font-bold mt-1">{{ product.price | currency }}</p>
-            <p class="text-xs mt-1" [class.text-red-600]="product.stockQuantity === 0">
-              {{ product.stockQuantity > 0 ? product.stockQuantity + ' in stock' : 'Out of stock' }}
-            </p>
-          </mat-card-content>
-        </mat-card>
+        <a *ngFor="let product of products$ | async" [routerLink]="['/products', product.id]">
+          <mat-card>
+            <img [src]="product.imageUrl || 'https://placehold.co/300x200?text=No+Image'" class="w-full h-40 object-cover" [alt]="product.name">
+            <mat-card-content class="pt-4">
+              <p class="text-xs text-gray-500 uppercase">{{ product.categoryName }}</p>
+              <h2 class="font-semibold">{{ product.name }}</h2>
+              <p class="text-lg font-bold mt-1">{{ product.price | currency }}</p>
+              <p class="text-xs mt-1" [class.text-red-600]="product.stockQuantity === 0">
+                {{ product.stockQuantity > 0 ? product.stockQuantity + ' in stock' : 'Out of stock' }}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </a>
       </div>
     </div>
   `
