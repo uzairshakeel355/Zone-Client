@@ -3,13 +3,15 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
 import { ProductActions } from '../../store/product/product.actions';
+import { CartActions } from '../../store/cart/cart.actions';
 import { selectSelectedProduct, selectProductsLoading, selectProductsError } from '../../store/product/product.selectors';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, RouterLink, MatProgressSpinnerModule],
+  imports: [CommonModule, CurrencyPipe, RouterLink, MatProgressSpinnerModule, MatButtonModule],
   template: `
     <div class="p-8 max-w-3xl mx-auto">
       <a routerLink="/products" class="text-indigo-600 underline">&larr; Back to products</a>
@@ -30,6 +32,13 @@ import { selectSelectedProduct, selectProductsLoading, selectProductsError } fro
           <p class="text-sm mt-1" [class.text-red-600]="product.stockQuantity === 0">
             {{ product.stockQuantity > 0 ? product.stockQuantity + ' in stock' : 'Out of stock' }}
           </p>
+
+          <button mat-flat-button color="primary" class="mt-4"
+                  [disabled]="product.stockQuantity === 0"
+                  (click)="addToCart(product.id)">
+            Add to Cart
+          </button>
+
           <p class="mt-4 text-gray-700">{{ product.description }}</p>
           <p class="text-xs text-gray-400 mt-6">SKU: {{ product.sku }}</p>
         </div>
@@ -47,5 +56,9 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.store.dispatch(ProductActions.loadProduct({ id }));
+  }
+
+  addToCart(productId: number): void {
+    this.store.dispatch(CartActions.addItem({ request: { productId, quantity: 1 } }));
   }
 }
