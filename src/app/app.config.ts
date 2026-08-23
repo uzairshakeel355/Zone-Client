@@ -19,13 +19,15 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { productReducer } from './store/product/product.reducer';
 import { ProductEffects } from './store/product/product.effects';
+import { cartReducer } from './store/cart/cart.reducer';
+import { CartEffects } from './store/cart/cart.effects';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(),
     provideHttpClient(withInterceptors([authInterceptor,errorInterceptor])),
-    provideStore({ auth: authReducer, products: productReducer }),
-    provideEffects([AuthEffects, ProductEffects]),
+    provideStore({ auth: authReducer, products: productReducer, cart: cartReducer }),
+    provideEffects([AuthEffects, ProductEffects, CartEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ]
 };
