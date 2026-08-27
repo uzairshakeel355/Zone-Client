@@ -21,13 +21,15 @@ import { productReducer } from './store/product/product.reducer';
 import { ProductEffects } from './store/product/product.effects';
 import { cartReducer } from './store/cart/cart.reducer';
 import { CartEffects } from './store/cart/cart.effects';
+import { orderReducer } from './store/order/order.reducer';
+import { OrderEffects } from './store/order/order.effects';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(),
     provideHttpClient(withInterceptors([authInterceptor,errorInterceptor])),
-    provideStore({ auth: authReducer, products: productReducer, cart: cartReducer }),
-    provideEffects([AuthEffects, ProductEffects, CartEffects]),
+    provideStore({ auth: authReducer, products: productReducer, cart: cartReducer, orders: orderReducer }),
+    provideEffects([AuthEffects, ProductEffects, CartEffects, OrderEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ]
 };
