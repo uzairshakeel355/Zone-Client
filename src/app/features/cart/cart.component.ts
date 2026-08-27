@@ -53,6 +53,14 @@ import { selectCart, selectCartLoading, selectCartError } from '../../store/cart
           </div>
         </div>
 
+              <div *ngIf="cart.items.length > 0" class="flex justify-between items-center mt-6">
+        <button mat-button color="warn" (click)="clearCart()">Clear Cart</button>
+        <div class="flex items-center gap-4">
+          <p class="text-xl font-bold">Total: {{ cart.total | currency }}</p>
+          <a mat-flat-button color="primary" routerLink="/checkout">Checkout</a>
+        </div>
+      </div>
+
         <div *ngIf="cart.items.length > 0" class="flex justify-between items-center mt-6">
           <button mat-button color="warn" (click)="clearCart()">Clear Cart</button>
           <p class="text-xl font-bold">Total: {{ cart.total | currency }}</p>
