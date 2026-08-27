@@ -2,6 +2,9 @@
   <a routerLink="/cart" class="text-gray-700" [matBadge]="(itemCount$ | async) || null" matBadgeColor="warn" matBadgeSize="small">
     <mat-icon>shopping_cart</mat-icon>
   </a>
+  <a routerLink="/orders" class="text-gray-700 mr-4">
+  <mat-icon>receipt_long</mat-icon>
+</a>
 </div>
 
 <router-outlet></router-outlet>
