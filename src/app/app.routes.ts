@@ -8,5 +8,7 @@ export const routes: Routes = [
   { path: 'products', loadComponent: () => import('./features/products/product-list.component').then(m => m.ProductListComponent) },
   { path: 'products/:id', loadComponent: () => import('./features/products/product-detail.component').then(m => m.ProductDetailComponent) },
   { path: 'cart', loadComponent: () => import('./features/cart/cart.component').then(m => m.CartComponent), canActivate: [authGuard] },
+  { path: 'checkout', loadComponent: () => import('./features/checkout/checkout.component').then(m => m.CheckoutComponent), canActivate: [authGuard] },
+  { path: 'orders/:id', loadComponent: () => import('./features/orders/order-detail.component').then(m => m.OrderDetailComponent), canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];
